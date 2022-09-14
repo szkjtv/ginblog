@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未登录</title>
+</head>
+<body>
+    
+    <div>
+      
+      
+    </div>
+
+    <div class="main">
+        <span>  <h1>您还没有登录 <a href="/user/register">去登录</a></h1></span>
+      </div>
+</body>
+</html>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    div{
+       /* width: 50%; */
+       height:100%; 
+       /* line-height:100%;  */
+       text-align: center;
+       width:100%; 
+      
+
+
+    }
+    
+        a{ 
+    text-decoration: none;
+ }
+
+ .main{
+      width: 100%;
+      height: 750px;
+      background-color: #aaa;
+      display: table;/*父元素设置表格属性*/
+      text-align: center;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    .main span{
+      display: table-cell;/*img设置成表格元素属性*/
+      vertical-align: middle;/*两个display设置后这个属性就起作用*/
+    }
+    
+</style>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <link rel="shortcut icon" href="/static/RE4wppQ.jpg" type="image/x-icon" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="../static/dist/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/dist/css/bootstrap.min.css">
+    <script src="../static/dist/js/bootstrap.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="../static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" /> -->
+
+    <style>
+        .page {
+            height: 20px;
+            outline-style: none;
+            border: 0.5px solid #20cca7;
+            width: 40px;
+            text-align: center;
+        }
+
+        .pagebb {
+            height: 20px;
+            outline-style: none;
+            border: 1px solid #71b0bb;
+            width: 30px;
+            text-align: center;
+
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
+
+        input[type='number'] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+                    </button>
+                    <a class="navbar-brand" href="#">logo</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="width: 100%;">
+
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                aria-haspopup="true" aria-expanded="false">用户:{{ .username}} <span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">账号:{{ .account}}</a></li>
+
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/user/auth/logout">退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+
+    <div class="container">
+        <span><a class="btn btn-info" href="/user/auth/admin">添加文章</a></span>
+        <span><a class="btn btn-success" href="/user/auth/query">文章列表</a></span>
+        <p></p>
+        <form class="form-inline" action="/user/auth/query" method="get">
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputAmount"></label>
+                <div class="input-group">
+                    <div class="input-group-addon">标题</div>
+                    <input type="text" class="form-control" name="title" value="{{ .query}}" id="exampleInputAmount"
+                        placeholder="输入关键词查询">
+                    <!-- <div class="input-group-addon">.00</div> -->
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">查询</button>
+        </form>
+
+
+        <table class="table table-hover">
+            <tbody>
+                <th style="text-align: center;font-weight: bold;font-size: 20px;">标题</th>
+                <th style="text-align: center;font-weight: bold;font-size: 20px">时间</th>
+                <th style="text-align: center;font-weight: bold;font-size: 20px">修改</th>
+                <th style="text-align: center;font-weight: bold;font-size: 20px">删除</th>
+            </tbody>
+
+            {{ range $v := .relut }}
+            <tr style="text-align: center;">
+                <td><a target="_blank" href="/deltel/{{ .ID }}">{{ .Title }}</a></td>
+                <td>{{ .CreatedAt.Format "2006-01-02 15:04:05"}}</td>
+                <td><a href="/user/auth/showeditor/{{ .ID}}">修改</a></td>
+                <td><a href="/user/auth/delec/{{ .ID }}">删除</a></td>
+            </tr>
+            {{ end }}
+
+            <tr style="text-align: center;">
+                <td colspan="5">
+                    <span><a
+                            href="/user/auth/query?title={{.query}}&pageSize=15&currentPage={{ .reduce }}">上一页</a></span>
+                    <span>第 {{ .currentPage }} 页</span>
+                    <span><a href="/user/auth/query?title={{.query}}&pageSize=15&currentPage={{ .add }}">下一页</a></span>
+                    <span>共 {{ .total }} 条</span>
+                    <span>共 {{ .pagenumber}} 页</span>
+                    <span><a href="{{ .renovate }}">刷新</a></span>
+                    <span>前往 <input class=" page" type="number" min="1" autocomplete="off" id="pageNo"
+                            value="{{ .currentPage }}" onKeyPress="onlyNumber();" /> 页 </span>
+                    <a style="color: blue;"
+                        onclick="location ='/user/auth/query?title={{.query}}&pageSize=15&currentPage='+document.getElementById('pageNo').value;">确定</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <div style="text-align: center;font-size: 25px;color: red;font-weight: bold;">
+                        {{.datanull}}
+                        {{.zuosi}}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+</body>
+
+</html>

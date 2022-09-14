@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer" />
+    <title>文章详情</title>
+    <link rel="shortcut icon" href="/static/RE4wppQ.jpg" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="../static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" />
+
+
+    <style>
+        img {
+            /*width: 710px;*/
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            /*object-fit： cover*/
+        }
+
+        /* pre {
+            background-color: #f8f8f8;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        } */
+
+        div {
+            width: 710px;
+            /* background-color: #ffffff; */
+            /* background-color: #ebebeb; */
+            margin: 0 auto;
+            word-break: break-all;
+            word-wrap: break-word;
+            /* background-color: auto; */
+        }
+
+        /* body {
+            background-color: auto;
+        } */
+
+
+
+        /*屏幕大于max*/
+        @media screen and (max-width:400px) {
+            div {
+                width: 100%;
+                margin: 0 auto;
+                word-break: break-all;
+                word-wrap: break-word;
+                /* background-color: auto; */
+
+            }
+        }
+
+
+        /*屏幕宽度小于min*/
+        @media screen and (min-width:1200px) {
+            div {
+                width: 55%;
+                margin: 0 auto;
+                word-break: break-all;
+                word-wrap: break-word;
+                /* background-color: auto; */
+
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <script type="text/javascript" src="../static/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <script type="text/javascript">
+        //为了在编辑器之外能展示高亮代码
+        SyntaxHighlighter.all();   
+    </script>
+
+
+
+    <div>
+        <br>
+        <h1>{{.dlet.Title}}</h1>
+        <span style="font-size: 6px;">作者:{{ .auth}}
+            <img src="/static/img/time.png" style="margin-left: 20px;">{{
+            .dlet.CreatedAt.Format "2006-01-02"}}
+        </span>
+        <hr>
+        <p>{{ .content }}</p>
+
+
+
+    </div>
+
+
+
+</body>
+
+</html>

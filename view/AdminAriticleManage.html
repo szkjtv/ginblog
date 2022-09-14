@@ -1,0 +1,376 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理员文章列表</title>
+    <!-- 引入字体图标 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="shortcut icon" href="/static/RE4wppQ.jpg" type="image/x-icon" />
+
+</head>
+
+<body>
+    <div class="navbar">
+        <input type="checkbox" id="checkbox">
+        <label for="checkbox">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            <i>超级管理员</i>   
+        </label>
+        <ul>
+            <li>
+                <img src="/static/icon_svip.png" alt="">
+                <span>欢迎您!</span>
+            </li>
+            <!-- <li>
+                <a href="/user/auth/admin">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span>添加文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="/user/auth/query">
+                    <i class="fa fa-sitemap" aria-hidden="true"></i>
+                    <span>文章列表</span>
+                </a>
+            </li> -->
+
+        </ul>
+        <div class="main">
+
+
+            <form action="/adminarticle" method="get">
+                <div class="serck">
+                    <div class="pannel-div search">
+                        <input type="text" name="title" maxlength="60" class="in" id="in" placeholder="请输入查询内容"
+                            value="{{ .query}}" />
+                        <button class="btn_search" style="submit">搜索</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div>
+                <table border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+                        <th style="width: 40px;">编号</th>
+                        <th style="width: 700px;">标题</th>
+                        <th style="width: 220px;">时间</th>
+                        <th style="width: 200px;">修改</th>
+                        <th style="width: 220px;">删除</th>
+                    </tr>
+
+                    {{ range $v := .relut }}
+                    <tr>
+                        <td>{{ .ID }}</td>
+                        <!-- 详情 -->
+                        <td><a target="_blank" href="/deltel/{{ .ID }}">{{ .Title }}</a></td>
+                        <td>{{ .CreatedAt.Format "2006-01-02 15:04:05"}}</td>
+
+                        <td><a target="_blank" href="/user/auth/showeditor/{{ .ID}}">修改</a></td>
+                        <td><a href="/admindelete/{{ .ID }}">删除</a></td>
+                    </tr>
+
+                    {{ end }}
+
+                    {{ range $v := .searult }}
+                    <tr>
+                        <td>{{ .Title }}</td>
+                        <td>{{ .CreatedAt.Format "2006-01-02 15:04:05"}}</td>
+                        <!-- <td><a target="_blank" href="/showeditor/{{ .ID}}">修改</a></td> -->
+                        <td><a href="/admindelete/{{ .ID }}">删除</a></td>
+                    </tr>
+
+                    {{ end }}
+
+                    <tr>
+                        <td colspan="5">
+                            <span><a href="/adminarticle?title={{.query}}&pageSize=15&currentPage={{ .reduce }}">上一页</a></span>
+                            <span>第 {{ .currentPage }} 页</span>
+                            <span><a href="/adminarticle?title={{.query}}&pageSize=15&currentPage={{ .add }}">下一页</a></span>
+                            <span>共 {{ .total }} 条</span>
+                            <span>共 {{ .pagenumber}} 页</span>
+                            <span><a href="{{ .renovate }}">刷新</a></span>
+                            <span>前往 <input class=" page" type="number" min="1" autocomplete="off" id="pageNo"
+                                    value="{{ .currentPage }}" onKeyPress="onlyNumber();" /> 页 </span>
+                            <a style="color: blue;"
+                                onclick="location ='/adminarticle?title={{.query}}&pageSize=15&currentPage='+document.getElementById('pageNo').value;">确定</a>
+
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align: center;font-size: 80px;color: red;">
+                {{.datanull}}
+                {{.zuosi}}
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+</body>
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+    }
+
+    input[type='number'] {
+        -moz-appearance: textfield;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .page {
+        height: 20px;
+        outline-style: none;
+        border: 0.5px solid #20cca7;
+        width: 40px;
+        text-align: center;
+    }
+
+    * {
+        /* 初始化 取消内外边距 */
+        margin: 0;
+        padding: 0;
+        outline: none;
+        /* 这个是告诉浏览器：你想要设置的边框和内边距的值是包含在总宽高内的 */
+        box-sizing: border-box;
+
+    }
+
+    .ueditor {
+        padding: 20px 0px 20px 0px;
+        /* left: 40%; */
+        width: 710px;
+        height: 300px;
+        /* background-color: white; */
+    }
+
+    body {
+        /* 溢出隐藏 */
+        /* overflow: hidden; */
+        overflow-y: hidden;
+        overflow-x: hidden;
+        /* 弹性布局 水平垂直居中 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* 设置body最小高度为100%窗口高度 */
+        min-height: 100vh;
+        height: 100vh;
+        /* 渐变背景 */
+        background: linear-gradient(200deg, #fefefe, #e6e7e9);
+
+    }
+
+    .navbar {
+        /* 相对定位 */
+        position: relative;
+        /* 100%窗口宽度 */
+        width: 100vw;
+        display: flex;
+
+    }
+
+    .main {
+        flex: 1;
+        height: calc(100vh - 0px);
+        position: relative;
+        top: 80px;
+        left: 50px;
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+    }
+
+    #checkbox {
+        display: none;
+    }
+
+    .navbar label {
+        position: absolute;
+        top: 0;
+        left: 70px;
+        width: 100%;
+        height: 43px;
+        font-size: 30px;
+        color: #5a738e;
+        background-color: #ededed;
+        padding-left: 20px;
+        border: 1px solid #d9dee4;
+        cursor: pointer;
+        /* 加个动画过渡 */
+        transition: all 0.5s;
+    }
+
+    .navbar ul {
+        list-style: none;
+        width: 70px;
+        /* 100%窗口高度 */
+        height: 100vh;
+        background-color: #2a3f54;
+        transition: all 0.5s;
+        overflow: hidden;
+    }
+
+    .navbar ul li {
+        height: 70px;
+        margin-bottom: 10px;
+    }
+
+    .navbar ul li:first-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+    }
+
+    .navbar ul li:first-child img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .navbar ul li:first-child span {
+        /* 先把文字隐藏起来 */
+        display: none;
+        color: #fff;
+        /* 文字禁止换行 */
+        white-space: nowrap;
+        padding-left: 10px;
+    }
+
+    .navbar ul li a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* 垂直排列 */
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        color: #d1d1d1;
+        text-decoration: none;
+    }
+
+    .navbar ul li a i {
+        font-size: 25px;
+        margin-bottom: 10px;
+    }
+
+    .navbar ul li a span {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .navbar ul li a:hover {
+        color: #fff;
+        background-color: #35495d;
+    }
+
+    /* :checked选择器是判断复选框是否被选中 */
+    /* +是相邻兄弟选择器，找到input的下一个兄弟label */
+    .navbar input:checked+label {
+        left: 200px;
+    }
+
+    /* ~也是兄弟选择器，但它可以找到隔了几代的兄弟 */
+    .navbar input:checked~ul {
+        width: 200px;
+    }
+
+    .navbar input:checked~ul li:first-child {
+        /* 将居中改为开头对齐 */
+        justify-content: flex-start;
+    }
+
+    .navbar input:checked~ul li:first-child span {
+        /* 文字显示 */
+        display: block;
+    }
+
+    .navbar input:checked~ul li a {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .navbar input:checked~ul li a i {
+        font-size: 18px;
+        margin: 0 15px 0 30px;
+    }
+
+    .navbar input:checked~ul li a span {
+        font-size: 14px;
+    }
+
+    table {
+        border-collapse: collapse;
+        /*让靠在一起的单元格只显示一个边框，边框不进行叠加*/
+
+    }
+
+    table tr th {
+
+        border: solid 1px #ccc;
+        height: 30px;
+        width: 200px;
+        background-color: #eee;
+    }
+
+    table tr td {
+        border: solid 1px #ccc;
+        height: 30px;
+        text-align: center;
+    }
+
+    table tr:hover {
+        background-color: rgb(159, 159, 161);
+        /*hover:鼠标移上去就会变成红色*/
+    }
+
+    .serck {
+        /* width: 100%; */
+    }
+
+    .pannel-div {
+        width: 450px;
+        /* float: left; */
+        height: 100%;
+        /* margin: 50px auto; */
+    }
+
+    .search .in {
+        width: 300px;
+        height: 36px;
+        border: 2px solid gray;
+        padding-left: 10px;
+        border-radius: 0px;
+        outline: none;
+        font: 16px/34px "microsoft yahei";
+    }
+
+    .search .btn_search {
+        background: gray;
+        width: 80px;
+        height: 40px;
+        color: white;
+        border-radius: 0px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        border-radius: 10px;
+
+    }
+</style>
+
+</html>

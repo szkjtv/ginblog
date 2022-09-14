@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客首页</title>
+    <link rel="shortcut icon" href="/static/RE4wppQ.jpg" type="image/x-icon" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="../static/dist/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/dist/css/bootstrap.min.css">
+    <script src="../static/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" />
+
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+
+        .container {
+            background-color: white;
+        }
+
+
+        p {
+
+            width: 100%;
+            overflow: hidden;
+            /* white-space: nowrap; */
+            height: 40px;
+            /* text-overflow: ellipsis; */
+            text-overflow: -o-ellipsis-lastline;
+
+        }
+
+        pre {
+
+            display: none;
+            /* visibility: hidden; */
+            height: 0px;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: black;
+
+        }
+
+
+
+        /* 未访问的链接 */
+        a:link {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* 已访问的链接 */
+        a:visited {
+            color: blue;
+            text-decoration: none;
+        }
+
+        /* 鼠标移动到链接上 */
+        a:hover {
+            color: #FF00FF;
+            text-decoration: none;
+        }
+
+
+        .page {
+            height: 40px;
+            margin-top: 10px;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .pagebb {
+            height: 20px;
+            outline-style: none;
+            border: 1px solid #71b0bb;
+            width: 30px;
+            text-align: center;
+
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
+
+        input[type='number'] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+
+
+    <div class="container" style="height: 60px;width: 55%;">
+
+        <!-- <div style="text-align: left;word-break:keep-all; white-space:nowrap;display:block;">
+            <span>博客</span>
+        </div>
+        <div style="text-align: right;word-break:keep-all; white-space:nowrap;display:block;">
+            <span>
+                登录·注册
+            </span>
+        </div> -->
+
+        <!-- <h4 style="text-align: right;"><a href="/user/register">登录·注册</a></h6> -->
+        <table style="width: 100%;height: 60px;">
+            <tr>
+                <td style="text-align: left;font-weight: 900;"><img src="./static/img/1.png" alt="" srcset=""></td>
+                <td style="text-align: right;"><a href="/user/register">登录·注册</a></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class=" container" style="width: 55%;">
+
+        <div>
+            <form class="form-inline" action="/" method="get">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon ">标题</div>
+                        <input style="width: 100%;" type="text" class="form-control" name="title"
+                            placeholder="输入关键词搜索内容" value="{{ .query}}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">搜索</button>
+            </form>
+
+
+        </div>
+
+
+        {{ range $v := .relut }}
+        <div>
+            <h3 style="font-weight:bold;"><a target="_blank" href="/deltel/{{ .ID }}" class="title">{{ .Title
+                    }}</a>
+            </h3>
+            <p id="tdcoent">
+                {{ .Content}}
+            </p>
+            <span style="color: gray;"><img src=" /static/img/time.png">{{
+                .CreatedAt.Format "2006-01-02 "}}</span>
+
+            <div style="background-color: #F0F0F0;height: 2px;">
+                <p></p>
+            </div>
+        </div>
+
+        {{ end }}
+
+        <div style="text-align: center;font-size: 80px;color: red;">
+            {{.datanull}}
+            {{.zuosi}}
+
+
+        </div>
+
+
+
+        <div class="page container " style="width: 55%;background-color: #F0F0F0;padding-bottom: 0%;">
+            <!-- <a href="#">首页</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">...</a><a
+            href="#">尾页</a> -->
+
+            <a href="/?title={{.query}}&pageSize=15&currentPage={{ .reduce }}">上一页</a>
+            第 {{ .currentPage }} 页
+            <a href="/?title={{.query}}&pageSize=15&currentPage={{ .add }}">下一页</a>
+            共 {{ .total }} 条
+            共 {{ .pagenumber}} 页
+            <a href="{{ .renovate }}">刷新</a>
+            前往 <input class=" pagebb" type="number" min="1" autocomplete="off" id="pageNo" value="{{ .currentPage }}"
+                onKeyPress="onlyNumber();" /> 页
+            <a style="color: blue;"
+                onclick="location ='/?title={{.query}}&pageSize=15&currentPage='+document.getElementById('pageNo').value;">确定</a>
+        </div>
+
+
+</body>
+
+</html>
