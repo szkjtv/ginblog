@@ -11,8 +11,8 @@ var db *gorm.DB
 var err error
 
 func Dbinit() (db *gorm.DB) { //tests   world  golang
-	// db, err = gorm.Open("mysql", "ginblog:aa1451418@tcp(127.0.0.1:3306)/ginblog?charset=utf8&parseTime=True&loc=Local")
-	db, err = gorm.Open("mysql", "ginblog:aa1451418@tcp(192.168.1.5:3306)/ginblog?charset=utf8&parseTime=True&loc=Local")
+	
+	db, err = gorm.Open("mysql", "数据库名:密码@tcp(数据库ip:3306)/用户名?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err.Error())
 	}
